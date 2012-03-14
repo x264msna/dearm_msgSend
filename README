@@ -2,3 +2,60 @@ dearm_msgSend.idc ... IDA Pro 5.x script to "demange" native
 objc_msgSend calls for iPhoneOS/arm binaries.
 
 - yet a beta version!
+
+How to use:
+- Just IDA -> File -> Script file.
+ 
+
+If in details:
+
+from the asm like:
+__text:000036A0 02 F0 80 EC                       BLX             _glGenBuffers
+__text:000036A4 28 68                             LDR             R0, [R5]
+__text:000036A6 21 58                             LDR             R1, [R4,R0]
+__text:000036A8 48 F6 92 00                       MOVW            R0, #0x8892
+__text:000036AC 02 F0 60 EC                       BLX             _glBindBuffer
+__text:000036B0 30 68                             LDR             R0, [R6]
+__text:000036B2 D8 F8 00 10                       LDR.W           R1, [R8]
+__text:000036B6 20 58                             LDR             R0, [R4,R0]
+__text:000036B8 02 F0 92 EC                       BLX             _objc_msgSend
+__text:000036BC 05 46                             MOV             R5, R0
+__text:000036BE 30 68                             LDR             R0, [R6]
+__text:000036C0 20 58                             LDR             R0, [R4,R0]
+__text:000036C2 43 F2 A2 41 C0 F2+                MOV             R1, 0x34A2
+__text:000036CA 79 44                             ADD             R1, PC
+__text:000036CC 09 68                             LDR             R1, [R1]
+__text:000036CE 02 F0 88 EC                       BLX             _objc_msgSend
+__text:000036D2 29 46                             MOV             R1, R5
+__text:000036D4 48 F6 E8 03                       MOVW            R3, #0x88E8
+__text:000036D8 02 46                             MOV             R2, R0
+__text:000036DA 48 F6 92 00                       MOVW            R0, #0x8892
+__text:000036DE 02 F0 4C EC                       BLX             _glBufferData
+__text:000036E2 01 20                             MOVS            R0, #1
+__text:000036E4 02 F0 5C EC                       BLX             _glEnableVertexAttribArray
+__text:000036E8 CD E9 00 AB                       STRD.W          R10, R11, [SP]
+__text:000036EC 01 20                             MOVS            R0, #1
+__text:000036EE 02 21                             MOVS            R1, #2
+__text:000036F0 41 F2 06 42                       MOVW            R2, #0x1406
+__text:000036F4 00 23                             MOVS            R3, #0
+__text:000036F6 02 F0 68 EC                       BLX             _glVertexAttribPointer
+
+
+possible to see it more clearly, note @selector and true function name:
+__text:000036B8 02 F0 92 EC                       BLX             _objc_msgSend ; @selector(getVertexSize)
+__text:000036BC 05 46                             MOV             R5, R0
+__text:000036BE 30 68                             LDR             R0, [R6]
+__text:000036C0 20 58                             LDR             R0, [R4,R0]
+__text:000036C2 43 F2 A2 41 C0 F2+                MOV             R1, 0x34A2
+__text:000036CA 79 44                             ADD             R1, PC
+__text:000036CC 09 68                             LDR             R1, [R1]
+__text:000036CE 02 F0 88 EC                       BLX             _objc_msgSend ; @selector(getTexCoords)
+
+
+ah, original code:
+
+glBindBuffer(GL_ARRAY_BUFFER, _texcoordVBO);
+glBufferData(GL_ARRAY_BUFFER, [_ripple getVertexSize], [_ripple getTexCoords], GL_DYNAMIC_DRAW);
+
+glEnableVertexAttribArray(ATTRIB_TEXCOORD);
+glVertexAttribPointer(ATTRIB_TEXCOORD, 2, GL_FLOAT, GL_FALSE, 2*sizeof(GLfloat), 0);
