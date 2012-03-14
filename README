@@ -1,0 +1,4 @@
+dearm_msgSend.idc ... IDA Pro 5.x script to "demange" native
+objc_msgSend calls for iPhoneOS/arm binaries.
+
+- yet a beta version!
