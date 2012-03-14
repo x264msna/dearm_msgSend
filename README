@@ -4,8 +4,9 @@ objc_msgSend calls for iPhoneOS/arm binaries.
 - yet a beta version!
 
 How to use:
-- Just IDA -> File -> Script file.
- 
+- Just IDA -> File -> Script file
+- Current function will be explored and objc_msgSend will be resolved 
+
 
 If in details:
 
