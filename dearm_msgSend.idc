@@ -44,7 +44,14 @@ static main(void)
  CreateArray("arm_regs");
  
  auto arm_regs = GetArrayId("arm_regs");
+
+ auto seg_start, seg_end,seg_i;
+
+ seg_start = SegByBase(SegByName("__text")); 
+ seg_end = SegEnd(seg_start); 
+ //Message("start:%x,end:%x\n",seg_start,seg_end);
  
+
  Start = ScreenEA();
  if(Start == BADADDR)
  {
@@ -69,7 +76,7 @@ static main(void)
 	SetArrayLong(arm_regs,b,0);
  }
 
- for(i = Start; i < Stop; i = ItemEnd(i))
+ for(i = seg_start; i < seg_end; i = ItemEnd(i))
  {
    if( strcmp(GetMnem(i), "MOV" ) ){
      auto cur_reg = substr( GetOpnd(i,0), 1,-1 );
