@@ -5,6 +5,7 @@ objc_msgSend calls for iPhoneOS/arm binaries.
 
 How to use:
 - Just IDA -> File -> Script file
+- (you might check also on http://networkpx.googlecode.com/svn/etc/idc/fixobjc2.idc)
 - Current function will be explored and objc_msgSend will be resolved 
 
 
